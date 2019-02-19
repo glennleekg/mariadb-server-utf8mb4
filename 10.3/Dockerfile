@@ -13,4 +13,19 @@ RUN \
   collation_server      = utf8mb4_unicode_ci\n" \
   >> /etc/mysql/mariadb.conf.d/charset.cnf
 
+ARG user=developer
+ARG group=developer
+ARG home=/home/$user
+ARG project=projects/project
+
+RUN \
+  groupadd $group \
+  && useradd -m -g $group $user
+
+USER $user
+
+RUN mkdir -p $home/$project
+
+WORKDIR $home/$project
+
 CMD ["mysqld"]
